@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>3 Column Layout</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript">
+	var selectArray = {
+        'dragon_ball' : {
+            'buu_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg'],
+            'cell_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg'],
+            'android_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg']
+        },
+        'dragon_ball_z' : {
+            'freeza_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg'],
+            'fusion_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg'],
+            'saiyan_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg']
+        },
+        'dragon_ball_gt' : {
+            'kidbuu_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg'],
+            'trunks_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg']
+        },
+        'dragon_ball_kai' : {
+            'worldgames_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg'],
+            'paniniad_saga' : ['1.jpg','2.jpg','3.jpg','4.jpg','5.jpg','6.jpg','7.jpg']
+        }
+    };
+    
+  function sanitizeword(word){
+    var sanitizestr = word.replace(/_/g, ' ').toUpperCase();
+    return(sanitizestr);
+    
+  }
+  
+  function addselect(value, selectnumber){
+    
+		var myElem = document.getElementById('firstchild');
+		if (myElem != null && selectnumber == 1) {
+			remove('firstchild');
+			remove('secondchild');
+		}
+
+		//check for the select token number
+		if (selectnumber == 1){
+			createSelect(value);
+		}
+		else {
+			console.log("nice");
+		}
+	}
+  
+  function createSelect(value){
+    var myDiv = document.getElementById("form");
+    var selectList = document.createElement("select");
+    selectList.id = "mySelect";
+    selectList.setAttribute("id", "firstchild");
+    selectList.setAttribute("onchange", "addfirstchild(document.getElementById('parentvalue').value,this.value,2)");
+    myDiv.appendChild(selectList);
+	
+    for(i in selectArray[value]) {
+		var option = document.createElement("option");
+		option.value = i, selectArray[i];
+    textval = sanitizeword(i, selectArray[i]);
+		option.text = textval;
+		selectList.appendChild(option);
+    }
+  }
+  
+  function addfirstchild(parent,selfval,selectnumber){
+    var myElem = document.getElementById('secondchild');
+    if (myElem != null) {
+      console.log("--------inside-------");
+			remove('secondchild');
+		}
+    
+    var myDiv = document.getElementById("form");
+    var selectList = document.createElement("select");
+    selectList.id = "mySelect";
+    selectList.setAttribute("id", "secondchild");
+    selectList.setAttribute("onchange", 
+    "addsecondchild(document.getElementById('parentvalue').value,document.getElementById('firstchild').value,this.value)");
+    myDiv.appendChild(selectList);
+    var test = selectArray[parent][selfval];
+    if(selectnumber == 2){
+      preloadimages(test,2);
+    }else{
+      preloadimages(test);
+    }
+    
+    for(i in selectArray[parent][selfval]) {
+      var option = document.createElement("option");
+      option.value = selectArray[parent][selfval][i];
+      textval = sanitizeword(selectArray[parent][selfval][i]);
+      option.text = textval;
+      selectList.appendChild(option);
+      }
+  }
+  
+  function addsecondchild(parent,firstchild,secondchild){
+    document.getElementById("images").innerHTML = "";
+    var check = document.getElementById("images");
+    var img= document.createElement('img');
+    img.src= "images/"+firstchild+"/"+secondchild;
+    img.alt= secondchild;
+    img.width = 200;
+    img.width = 200;
+    img.title= secondchild;
+    check.appendChild(img);
+  }
+  
+  //function to remove the element wih the help  of id
+  function remove(id) {
+    //check getelement by id check before removing div or element
+    var check = document.getElementById(id);
+    if (check != null) {
+      document.getElementById(id).remove();
+    }
+  }
+  
+  
+  
+  function preloadimages(imagearr , child){
+    document.getElementById("images").innerHTML = "";
+    //var check = document.getElementById("images");
+    //document.getElementById("images").innerHTML = "";
+    if(child == 2){
+      for(i in imagearr) {
+        createimgelement(imagearr[i]);
+      }
+    }else{
+        for(i in imagearr) {
+        if(Object.keys(imagearr[i]).length > 0){
+          for(val in imagearr[i]) {
+            if(Object.keys(imagearr[i][val]).length > 0){
+              for(count in imagearr[i][val]) {
+                createimgelement(imagearr[i][val][count]);
+              }
+            }else{
+              createimgelement(imagearr[i][val]);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  function createimgelement(imageset){
+    var check = document.getElementById("images");
+    var img= document.createElement('img');
+    img.src= "images/worldgames_saga"+"/"+imageset;
+    img.alt= imageset;
+    img.width = 200;
+    img.width = 200;
+    img.title= imageset;
+    check.appendChild(img);
+  } 
+
+
+		
+	</script>	
+</head>
+
+<body>
+
+	<!--<header id="header"><p>Header...</p></header>-->
+  <div class="body_full">
+    <div id="container">
+      <div class='header'>
+        <div id="logoimg">
+          <img src="dragonball_logo.png" alt="Dragonball Logo" height="301" width="800">
+        </div>
+        <p>Goku is a Saiyan sent from Planet Vegeta to Earth. After crash-landing on Earth, the baby was found in the woods by an old man named Gohan and became his adopted grandson. He was then given his Earthling name, "Son Goku". At first, Goku was extremely violent and ill-tempered, not obeying Gohan at all, but one day he fell down a deep ravine and hit his head, suffering severe head trauma that sent him into a coma and very nearly killed him and caused him to suffer long-term amnesia. After he woke up, he had lost all of his Saiyan aggression due to not remembering his mission, becoming a kind and mild-mannered young boy. His Grandpa Gohan taught him martial arts and told him about such things as the city and people, as they lived in a very remote place in Mount Paozu, with no communication with other people.</p>
+      </div> 
+      
+      <div class='body'>
+        <p>Gohan one day discovered Goku's full moon transformation, and thus told him to never look at the full moon. However, one night Goku did, and he transformed into a Great Ape, causing him to unknowingly kill Gohan. After his grandpa's death, Goku stayed at his home, carrying out his daily life of survival. From a young age, Goku developed the impression that his birth parents abandoned him in the mountains as a baby, leaving him for Grandpa Gohan to discover.</p>
+        <form id="form" action="">
+          <select id="parentvalue" class="style_select" name="Select" onchange="addselect(this.value,1)">
+            <option value="">Select</option>
+            <option value="dragon_ball">Dragon Ball</option>
+            <option value="dragon_ball_z">Dragon Ball Z</option>
+            <option value="dragon_ball_gt">Dragon Ball GT</option>
+            <option value="dragon_ball_kai">Dragon Ball Kai</option>
+          </select>
+        </form>
+      </div>
+      <div id="images" ></div>
+    </div>
+	</div>
+  </br>
+  </br>
+  </br>
+  <div id="footer-wrapper">
+		<footer id="footer"><p>Footer...</p></footer>
+	</div>
+</body>
+</body>
+<script>
+preloadimages(selectArray);
+</script>
+</html>
